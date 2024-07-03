@@ -1,0 +1,15 @@
+.card_container {
+    @apply relative border-2 border-slate-300 bg-white rounded-lg overflow-hidden;
+}
+
+.cmd_buttons {
+    @apply absolute flex flex-col top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 gap-2;
+}
+
+.backdrop_blur {
+    @apply absolute w-full h-full opacity-0 transition;
+}
+
+.card_container:hover .backdrop_blur {
+    @apply visible backdrop-blur-lg opacity-100 transition;
+}
