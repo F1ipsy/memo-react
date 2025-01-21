@@ -174,7 +174,7 @@ export default function Cards() {
 							</div>
 
 							<img
-								src={card.image}
+								src={`${import.meta.env.VITE_API_URL}/storage/${card.image}`}
 								alt={card.alt}
 								className='w-full h-[220px] object-contain'
 							/>

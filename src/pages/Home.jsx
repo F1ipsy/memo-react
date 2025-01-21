@@ -14,6 +14,8 @@ export default function App() {
 	const [numberOfMoves, setNumberOfMoves] = useState(0);
 	const timerRef = useRef(null);
 
+	const link = document.referrer;
+
 	const getCards = async () => {
 		const response = await fetch(
 			`${import.meta.env.VITE_API_URL}/cards?categoryId=${category?.id}`
@@ -61,6 +63,7 @@ export default function App() {
 			);
 
 			setCards((prev) => [...prev].sort(() => Math.random() - 0.5));
+			console.log(cards)
 		}
 	};
 
@@ -78,6 +81,9 @@ export default function App() {
 	};
 
 	const navigateToMenu = () => {
+		if (link !== "") {
+			window.location.href = link;
+		}
 		setCategory(null);
 		setCards([]);
 		setSelectedCards([]);
@@ -122,7 +128,7 @@ export default function App() {
 	return !category ? (
 		<CategoriesMenu onClick={handleCategory} />
 	) : (
-		<div className='w-2/3 h-screen flex flex-col mx-auto'>
+		<div className='w-full h-screen flex flex-col mx-auto px-12'>
 			<div className='flex gap-4'>
 				<button
 					onClick={navigateToMenu}
@@ -141,15 +147,8 @@ export default function App() {
 								Инструкция
 							</h2>
 							<hr className='h-[2px] bg-white my-4' />
-							<p className='text-white text-2xl text-center'>
-								Для успешной реализации себя в профессии учителю необходимо
-								обладать большим набором различных качеств. Давайте познакомимся
-								с некоторыми из них. <br />
-								<br />
-								Найдите пары качеств: картинка и слово.
-								<br />
-								<br />
-								Удачи!!!
+							<p className='text-white text-2xl whitespace-pre-line text-center'>
+								{category.instruction}
 							</p>
 						</div>
 						<button
@@ -174,7 +173,7 @@ export default function App() {
 									selectedCards.some((card) => card.id === el.id) ||
 									matchedCards.includes(el.id)
 								}
-								back_img={el.image}
+								back_img={`${import.meta.env.VITE_API_URL}/storage/${el.image}`}
 								key={el.id}
 							/>
 						))}

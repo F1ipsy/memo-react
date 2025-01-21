@@ -124,13 +124,13 @@ export default function EditCard() {
 			</form>
 			<div className='grid grid-cols-4 gap-4 p-4 mb-6 border-2 border-slate-300 bg-slate-100 rounded-lg'>
 				<img
-					src={card?.image}
+					src={`${import.meta.env.VITE_API_URL}/storage/${card?.image}`}
 					alt={card?.alt}
 					className='w-full h-[220px] object-contain border-2 border-slate-300 bg-white rounded-lg'
 				/>
 				{card?.alternateImage !== "" && (
 					<img
-						src={card?.alternateImage}
+						src={`${import.meta.env.VITE_API_URL}/storage/${card?.alternateImage}`}
 						alt={card?.alt}
 						className='w-full h-[220px] object-contain border-2 border-slate-300 bg-white rounded-lg'
 					/>

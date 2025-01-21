@@ -7,6 +7,7 @@ export default function EditCategoryTitle() {
 	const [category, setCategory] = useState({});
 	const [oldTitle, setOldTitle] = useState("");
 	const [newTitle, setNewTitle] = useState("");
+	const [instruction, setInstruction] = useState("");
 	const inputRef = useRef(null);
 	const navigate = useNavigate();
 
@@ -20,10 +21,11 @@ export default function EditCategoryTitle() {
 			setCategory(result);
 			setOldTitle(result.title);
 			setNewTitle(result.title);
+			setInstruction(result.instruction);
 		}
 	};
 
-	const editCategoryTitle = async (e) => {
+	const editCategory = async (e) => {
 		e.preventDefault();
 
 		const response = await fetch(
@@ -33,7 +35,7 @@ export default function EditCategoryTitle() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ title: newTitle }),
+				body: JSON.stringify({ title: newTitle, instruction }),
 			}
 		);
 
@@ -58,21 +60,28 @@ export default function EditCategoryTitle() {
 
 	return (
 		<div className='w-2/3 mx-auto'>
-			<Header title={`Изменение названия категории "${oldTitle}"`} />
-			<form onSubmit={editCategoryTitle}>
-				<div className='w-full flex my-6 gap-x-4'>
+			<Header title={`Изменение категории "${oldTitle}"`} />
+			<form onSubmit={editCategory}>
+				<div
+					className='w-full border-2 border-slate-300 bg-slate-100 rounded-lg flex flex-col my-6 p-4 gap-y-4'>
 					<input
 						ref={inputRef}
 						type='text'
 						onInput={(e) => setNewTitle(e.target.value)}
 						defaultValue={oldTitle}
 						autoFocus
-						className='w-4/5 text-2xl border-2 border-slate-300 rounded-lg p-4'
+						className='text-2xl border-2 border-slate-300 rounded-lg p-4'
 						placeholder='Введите новое название категории'
+					/>
+					<textarea
+						onInput={(e) => setInstruction(e.target.value)}
+						defaultValue={instruction}
+						className='text-2xl border-2 min-h-20 border-slate-300 rounded-lg p-4'
+						placeholder='Введите инструкцию категории'
 					/>
 					<button
 						type='submit'
-						className='w-1/5 text-2xl bg-yellow-400 hover:bg-gradient-to-t from-yellow-400 to-yellow-300 rounded-lg'
+						className='text-2xl bg-yellow-400 hover:bg-gradient-to-t from-yellow-400 to-yellow-300 rounded-lg p-4'
 					>
 						Сохранить
 					</button>

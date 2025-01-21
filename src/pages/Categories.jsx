@@ -4,6 +4,7 @@ import Header from "../components/header/Header";
 
 export default function Categories() {
 	const [title, setTitle] = useState("");
+	const [instruction, setInstruction] = useState("");
 	const [categories, setCategories] = useState([]);
 
 	const getCategories = async () => {
@@ -22,13 +23,14 @@ export default function Categories() {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ title }),
+			body: JSON.stringify({ title, instruction }),
 		});
 		const result = await response.json();
 
 		if (response.ok) {
 			setCategories([...categories, result]);
 			setTitle("");
+			setInstruction("");
 		} else {
 			alert(
 				`Произошла ошибка\n Status: ${response.status}\n Message: ${result.message}`
@@ -56,17 +58,23 @@ export default function Categories() {
 		<div className='w-2/3 mx-auto'>
 			<Header title={"Категории"} />
 			<form onSubmit={createCategory}>
-				<div className='w-full flex my-6 gap-x-4'>
+				<div className='w-full border-2 border-slate-300 bg-slate-100 rounded-lg flex flex-col my-6 p-4 gap-y-4'>
 					<input
 						type='text'
 						value={title}
 						onInput={(e) => setTitle(e.target.value)}
-						className='w-4/5 text-2xl border-2 border-slate-300 rounded-lg p-4'
+						className='text-2xl border-2 border-slate-300 rounded-lg p-4'
 						placeholder='Введите название категории'
+					/>
+					<textarea
+						value={instruction}
+						onInput={(e) => setInstruction(e.target.value)}
+						className='text-2xl border-2 min-h-20 border-slate-300 rounded-lg p-4'
+						placeholder='Инструкция к категории'
 					/>
 					<button
 						type='submit'
-						className='w-1/5 text-2xl bg-yellow-400 hover:bg-gradient-to-t from-yellow-400 to-yellow-300 rounded-lg'
+						className='text-2xl p-4 bg-yellow-400 hover:bg-gradient-to-t from-yellow-400 to-yellow-300 rounded-lg'
 					>
 						Создать
 					</button>

@@ -5,6 +5,8 @@ export default function CategoriesMenu({ onClick }) {
 	const [categories, setCategories] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState(null);
 
+	const link = document.referrer;
+
 	const getCategories = async () => {
 		const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
 		if (response.ok) {
@@ -18,11 +20,17 @@ export default function CategoriesMenu({ onClick }) {
 	};
 
 	useEffect(() => {
-		getCategories();
+		getCategories();		
 	}, []);
 
+	useEffect(() => {
+		if (link !== "") {
+			handleCategory(categories.find((category) => category.title === "Технические средства ДОУ"));
+		}
+	}, [categories])
+
 	return (
-		<div className='w-2/3 h-screen flex flex-col mx-auto'>
+		<div className='w-full h-screen flex flex-col px-12'>
 			<Header title={"Выбор категории игры"} />
 			<div className='w-1/2 flex flex-col self-center my-auto gap-4 bg-slate-400 p-4 rounded-lg'>
 				<select
