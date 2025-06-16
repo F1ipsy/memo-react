@@ -14,12 +14,8 @@ export default function App() {
 	const [numberOfMoves, setNumberOfMoves] = useState(0);
 	const timerRef = useRef(null);
 
-	const link = document.referrer;
-
 	const getCards = async () => {
-		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/cards?categoryId=${category?.id}`
-		);
+		const response = await fetch(`${import.meta.env.VITE_API_URL}/cards?categoryId=${category?.id}`);
 
 		if (response.ok) {
 			const result = await response.json();
@@ -81,9 +77,6 @@ export default function App() {
 	};
 
 	const navigateToMenu = () => {
-		if (link !== "") {
-			window.location.href = link;
-		}
 		setCategory(null);
 		setCards([]);
 		setSelectedCards([]);
@@ -125,18 +118,22 @@ export default function App() {
 		}
 	}, [matchedCards]);
 
+	const link = document.referrer;
+
 	return !category ? (
 		<CategoriesMenu onClick={handleCategory} />
 	) : (
 		<div className='w-full h-screen flex flex-col mx-auto px-12'>
 			<div className='flex gap-4'>
-				<button
-					onClick={navigateToMenu}
-					className='w-1/6 bg-yellow-400 hover:bg-gradient-to-t from-yellow-400 to-yellow-300 text-3xl rounded-b-xl p-4'
-				>
-					В меню
-				</button>
-				<Header title={`Категория "${category.title}"`} />
+				{(link === "" || link === "http://memo.sfera.local/") &&
+					<button
+						onClick={navigateToMenu}
+						className='w-1/6 bg-yellow-400 hover:bg-gradient-to-t from-yellow-400 to-yellow-300 text-3xl rounded-b-xl p-4'
+					>
+						В меню
+					</button>
+				}
+				<Header title={`Категория "${category.title}"`}/>
 			</div>
 
 			<div className='h-full flex justify-center my-6'>
